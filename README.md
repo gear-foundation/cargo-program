@@ -2,6 +2,8 @@
 
 Utility to simplify Gear programs development.
 
+:warning: **The project is currently under active development. Some features may be unstable.**
+
 ## Install
 
 - [ ] *(not released yet)* Stable version from [crates.io](https://crates.io/crates/cargo-program):

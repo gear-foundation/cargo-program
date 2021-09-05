@@ -1,0 +1,17 @@
+[package]
+name = "cargo-program"
+version = "0.0.1"
+edition = "2018"
+license = "GPL-3.0"
+description = "Utility to simplify Gear programs development"
+include = ["src/**/*.rs"]
+
+[lib]
+name = "cargo_program"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1.0.43"
+clap = "3.0.0-beta"
+log = "0.4.14"
+thiserror = "1.0.28"
