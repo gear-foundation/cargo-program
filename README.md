@@ -24,13 +24,13 @@ cargo install --path cargo-program
 ###  *(in progress)* Create a new Gear program
 
 ```
-cargo program new my_program
+cargo program new my-program
 ```
 
 ###  *(in progress)* Create a new async Gear program
 
 ```
-cargo program new my_program --async
+cargo program new my-async-program --async
 ```
 
 ### *(in progress)* Build the Gear program

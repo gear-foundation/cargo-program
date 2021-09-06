@@ -1,7 +1,10 @@
+mod commands;
 mod error;
 
 use anyhow::Result;
 use clap::Clap;
+
+use crate::commands::NewCommand;
 
 /// Utility to simplify Gear programs development
 #[derive(Clap, Debug)]
@@ -11,39 +14,34 @@ use clap::Clap;
 )]
 struct Opts {
     #[clap(subcommand)]
+    command: Util,
+}
+
+#[derive(Clap, Debug)]
+enum Util {
+    #[clap(
+        name = "program",
+        version = clap::crate_version!(),
+    )]
+    Program(ProgramUtil),
+}
+
+/// Utility to simplify Gear programs development
+#[derive(Clap, Debug)]
+struct ProgramUtil {
+    #[clap(subcommand)]
     command: Command,
 }
 
 #[derive(Clap, Debug)]
 enum Command {
-    #[clap(
-        name = "program",
-        version = clap::crate_version!(),
-    )]
-    Program(ProgramCommand),
-}
-
-/// Utility to simplify Gear programs development
-#[derive(Clap, Debug)]
-struct ProgramCommand {
-    #[clap(subcommand)]
-    sub_command: SubCommand,
-}
-
-#[derive(Clap, Debug)]
-enum SubCommand {
-    New(NewSubCommand),
-}
-
-/// Create a new Gear program
-#[derive(Clap, Debug)]
-struct NewSubCommand {
-    /// Project name
-    name: String,
+    New(NewCommand),
 }
 
 pub fn run() -> Result<()> {
     let opts = Opts::parse();
-    dbg!(opts);
-    Ok(())
+    let Util::Program(ProgramUtil { command }) = opts.command;
+    match command {
+        Command::New(command) => command.run(),
+    }
 }

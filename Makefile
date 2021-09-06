@@ -14,9 +14,16 @@ install:
 .PHONY: new
 new:
 	@cargo install --path .
-	@rm -rf test_program
-	@cargo program new test_program
+	@rm -rf test-program
+	@cargo program new test-program
+
+.PHONY: pre-commit
+pre-commit:
+	@cargo fmt
+	@cargo clippy -- -D warnings
+	@cargo test
 
 .PHONY: run
 run:
-	@cargo run --release -- --help
+	@cargo install --path .
+	@cargo program --help

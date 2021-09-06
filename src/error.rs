@@ -1,8 +1,9 @@
-//pub use anyhow::{bail, ensure, Context, Error, Result};
+use std::path::PathBuf;
+
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub enum CustomError {
-    #[error("invalid")]
-    Invalid,
+pub enum CrateError {
+    #[error("destination `{0}` already exists")]
+    DestinationExists(PathBuf),
 }
