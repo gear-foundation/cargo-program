@@ -4,7 +4,7 @@ mod error;
 use anyhow::Result;
 use clap::Clap;
 
-use crate::commands::NewCommand;
+use crate::commands::{BuildCommand, NewCommand};
 
 /// Utility to simplify Gear programs development
 #[derive(Clap, Debug)]
@@ -36,6 +36,7 @@ struct ProgramUtil {
 #[derive(Clap, Debug)]
 enum Command {
     New(NewCommand),
+    Build(BuildCommand),
 }
 
 pub fn run() -> Result<()> {
@@ -43,5 +44,6 @@ pub fn run() -> Result<()> {
     let Util::Program(ProgramUtil { command }) = opts.command;
     match command {
         Command::New(command) => command.run(),
+        Command::Build(command) => command.run(),
     }
 }

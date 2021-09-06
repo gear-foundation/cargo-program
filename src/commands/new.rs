@@ -1,6 +1,6 @@
 use std::{env, fs};
 
-use anyhow::{ensure, Result};
+use anyhow::{ensure, Context, Result};
 use clap::Clap;
 
 use crate::error::CrateError;
@@ -19,13 +19,40 @@ impl NewCommand {
     pub fn run(&self) -> Result<()> {
         let dest_dir = env::current_dir()?.join(&self.name);
         ensure!(!dest_dir.exists(), CrateError::DestinationExists(dest_dir));
-        fs::create_dir(&dest_dir)?;
+        fs::create_dir(&dest_dir).context("unable to create program directory")?;
 
-        fs::write(dest_dir.join("Cargo.toml"), self.replace_name(include_bytes!("../templates/new/Cargo.toml"))?)?;
+        fs::write(
+            dest_dir.join("Cargo.toml"),
+            self.replace_fields(include_bytes!("../templates/new/Cargo.toml"))?,
+        )?;
+
+        let src_dir = dest_dir.join("src");
+        fs::create_dir(&src_dir).context("unable to create `src` subdirectory")?;
+
+        if self.async_flag {
+            fs::write(
+                src_dir.join("lib.rs"),
+                include_bytes!("../templates/new-async/lib.rs"),
+            )?;
+        } else {
+            fs::write(
+                src_dir.join("lib.rs"),
+                include_bytes!("../templates/new/lib.rs"),
+            )?;
+        }
         Ok(())
     }
 
-    fn replace_name(&self, source: &[u8]) -> Result<String> {
-        Ok(String::from_utf8(source.to_vec())?.replace("{{name}}", &self.name))
+    fn replace_fields(&self, source: &[u8]) -> Result<String> {
+        let source = String::from_utf8(source.to_vec())?;
+        let result = source.replace("{{name}}", &self.name).replace(
+            "{{async}}",
+            if self.async_flag {
+                "gstd-async = { git = \"https://github.com/gear-tech/gear.git\" }\n"
+            } else {
+                ""
+            },
+        );
+        Ok(result)
     }
 }

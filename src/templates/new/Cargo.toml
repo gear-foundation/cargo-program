@@ -8,16 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 gstd = { git = "https://github.com/gear-tech/gear.git", features = ["debug"] }
-gstd-async = { git = "https://github.com/gear-tech/gear.git" }
-
-[build]
-target = "wasm32-unknown-unknown"
-
-[target.wasm32-unknown-unknown]
-rustflags = [
-  "-C", "link-args=--import-memory",
-]
-
+{{async}}
 [profile.release]
 lto = true
 opt-level = 's'

@@ -21,7 +21,7 @@ cargo install --path cargo-program
 
 ## Usage
 
-###  *(in progress)* Create a new Gear program
+###  Create a new Gear program
 
 ```
 cargo program new my-program
@@ -33,7 +33,7 @@ cargo program new my-program
 cargo program new my-async-program --async
 ```
 
-### *(in progress)* Build the Gear program
+### Build the Gear program
 
 ```
 cargo program build
