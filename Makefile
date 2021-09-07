@@ -7,6 +7,12 @@ cargo:
 	@cargo install --path .
 	@cargo program --help
 
+.PHONY: pre-check
+pre-check:
+	@cargo fmt -- --check
+	@cargo clippy -- -D warnings
+	@cargo test
+
 .PHONY: install
 install:
 	@cargo install --path .

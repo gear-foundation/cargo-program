@@ -1,6 +1,5 @@
 #![no_std]
 
-use gstd::prelude::*;
 use gstd::msg;
 
 #[no_mangle]

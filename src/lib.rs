@@ -1,10 +1,11 @@
 mod commands;
+mod common;
 mod error;
 
 use anyhow::Result;
 use clap::Clap;
 
-use crate::commands::{BuildCommand, NewCommand};
+use crate::commands::*;
 
 /// Utility to simplify Gear programs development
 #[derive(Clap, Debug)]
@@ -37,6 +38,10 @@ struct ProgramUtil {
 enum Command {
     New(NewCommand),
     Build(BuildCommand),
+    Run(RunCommand),
+    Test(TestCommand),
+    Login(LoginCommand),
+    Publish(PublishCommand),
 }
 
 pub fn run() -> Result<()> {
@@ -45,5 +50,9 @@ pub fn run() -> Result<()> {
     match command {
         Command::New(command) => command.run(),
         Command::Build(command) => command.run(),
+        Command::Run(command) => command.run(),
+        Command::Test(command) => command.run(),
+        Command::Login(command) => command.run(),
+        Command::Publish(command) => command.run(),
     }
 }
