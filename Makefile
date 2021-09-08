@@ -9,7 +9,7 @@ cargo:
 
 .PHONY: pre-check
 pre-check:
-	@cargo fmt -- --check
+	@cargo +nightly fmt -- --check
 	@cargo clippy -- -D warnings
 	@cargo test
 
@@ -19,7 +19,7 @@ install:
 
 .PHONY: pre-commit
 pre-commit:
-	@cargo fmt
+	@cargo +nightly fmt
 	@cargo clippy -- -D warnings
 	@cargo test
 
