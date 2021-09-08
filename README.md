@@ -1,6 +1,6 @@
 # cargo-program
 
-[![CI Status](https://img.shields.io/github/workflow/status/gear-tech/cargo-program/CI/master)](https://github.com/gear-tech/cargo-program/actions/workflows/ci.yml?query=branch%3Amaster)
+[![CI Status](https://github.com/gear-tech/cargo-program/workflows/CI/badge.svg)](https://github.com/gear-tech/cargo-program/actions/workflows/ci.yml?query=branch%3Amaster)
 [![License](https://img.shields.io/badge/license-GPL%203.0-success)](https://github.com/gear-tech/cargo-program/blob/master/LICENSE)
 [![crates.io](https://img.shields.io/crates/v/cargo-program)](https://crates.io/crates/cargo-program)
 
