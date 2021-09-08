@@ -24,7 +24,7 @@ impl NewCommand {
 
         fs::write(
             dest_dir.join("Cargo.toml"),
-            self.replace_fields(include_bytes!("../templates/new/Cargo.toml"))?,
+            self.replace_fields(include_bytes!("templates/_Cargo.toml"))?,
         )?;
 
         let src_dir = dest_dir.join("src");
@@ -33,13 +33,10 @@ impl NewCommand {
         if self.async_flag {
             fs::write(
                 src_dir.join("lib.rs"),
-                include_bytes!("../templates/new-async/lib.rs"),
+                include_bytes!("templates/_async_lib.rs"),
             )?;
         } else {
-            fs::write(
-                src_dir.join("lib.rs"),
-                include_bytes!("../templates/new/lib.rs"),
-            )?;
+            fs::write(src_dir.join("lib.rs"), include_bytes!("templates/_lib.rs"))?;
         }
         Ok(())
     }
