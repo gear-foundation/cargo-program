@@ -1,24 +1,27 @@
 # cargo-program
 
+[![CI Status](https://img.shields.io/github/workflow/status/gear-tech/cargo-program/CI/master)](https://github.com/gear-tech/cargo-program/actions/workflows/ci.yml?query=branch%3Amaster)
+[![License](https://img.shields.io/badge/license-GPL%203.0-success)](https://github.com/gear-tech/cargo-program/blob/master/LICENSE)
+[![crates.io](https://img.shields.io/crates/v/cargo-program)](https://crates.io/crates/cargo-program)
+
 Utility to simplify Gear programs development.
 
 :warning: **The project is currently under active development. Some features may be unstable.**
 
 ## Install
 
-- [ ] *(not released yet)* Stable version from [crates.io](https://crates.io/crates/cargo-program):
-
-```
-cargo install cargo-program
-```
-
-- [x] Latest version from the repo:
+- *(recommended)* Latest version from the repo:
 
 ```
 git clone https://github.com/gear-tech/cargo-program.git
 cargo install --path cargo-program
 ```
 
+- Stable version from [crates.io](https://crates.io/crates/cargo-program):
+
+```
+cargo install cargo-program
+```
 ## Usage
 
 ###  Create a new Gear program

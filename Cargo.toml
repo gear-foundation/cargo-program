@@ -4,11 +4,19 @@ version = "0.0.1"
 edition = "2018"
 license = "GPL-3.0"
 description = "Utility to simplify Gear programs development"
-include = ["src/**/*.rs"]
+include = ["src/**/*", "Cargo.toml", "LICENSE", "README.md"]
+repository = "https://github.com/gear-tech/cargo-program"
+readme = "README.md"
 
 [lib]
 name = "cargo_program"
 path = "src/lib.rs"
+doc = true
+
+[[bin]]
+name = "cargo-program"
+path = "src/main.rs"
+doc = false
 
 [dependencies]
 anyhow = "1.0.43"
