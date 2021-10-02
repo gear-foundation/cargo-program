@@ -1,5 +1,6 @@
 mod commands;
 mod common;
+mod crate_info;
 mod error;
 
 use anyhow::Result;

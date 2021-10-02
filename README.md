@@ -6,7 +6,7 @@
 
 Utility to simplify Gear programs development.
 
-:warning: **The project is currently under active development. Some features may be unstable.**
+⚠️ **The project is currently under active development. Some features may be unstable.**
 
 ## Install
 
@@ -42,13 +42,13 @@ cargo program new my-async-program --async
 cargo program build
 ```
 
-### :construction: *(in progress)* Run the Gear program off-chain (default)
+### 🚧 *(in progress)* Run the Gear program off-chain (default)
 
 ```
 cargo program run
 ```
 
-### :construction: *(in progress)* Run the Gear program on-chain using local node
+### 🚧 *(in progress)* Run the Gear program on-chain using local node
 
 ```
 cargo program run --node
@@ -56,13 +56,13 @@ cargo program run --node
 cargo program run --node 127.0.0.1:9933
 ```
 
-### :construction: *(in progress)* Run tests
+### 🚧 *(in progress)* Run tests
 
 ```
 cargo program test
 ```
 
-### :construction: *(in progress)* Login to the Gear backend
+### 🚧 *(in progress)* Login to the Gear backend
 
 ```
 cargo program login
@@ -70,7 +70,7 @@ cargo program login
 cargo program login --host https://my-gear-backend.tld:8123
 ```
 
-### :construction: *(in progress)* Publish the Gear program to the chain
+### 🚧 *(in progress)* Publish the Gear program to the chain
 
 ```
 cargo program publish

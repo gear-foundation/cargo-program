@@ -9,4 +9,16 @@ pub enum CrateError {
 
     #[error("destination `{0}` already exists")]
     DestinationExists(PathBuf),
+
+    #[error("invalid manifest path `{0}`")]
+    InvalidManifestPath(PathBuf),
+
+    #[error("unable to find the root package in cargo metadata")]
+    RootPackageNotFound,
+
+    #[error("unable to find the library name in cargo metadata")]
+    LibNameNotFound,
+
+    #[error("unable to find the output WASM file `{0}`")]
+    OutputNotFound(PathBuf),
 }

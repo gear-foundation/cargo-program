@@ -1,6 +1,6 @@
 [package]
 name = "cargo-program"
-version = "0.0.2"
+version = "0.0.3-alpha"
 edition = "2018"
 license = "GPL-3.0"
 description = "Utility to simplify Gear programs development"
@@ -19,8 +19,10 @@ path = "src/main.rs"
 doc = false
 
 [dependencies]
-anyhow = "1.0.43"
+anyhow = "1.0.44"
+cargo_metadata = "0.14.0"
 clap = "3.0.0-beta"
 colored = "2.0.0"
+env_logger = "0.9.0"
 log = "0.4.14"
-thiserror = "1.0.28"
+thiserror = "1.0.29"
