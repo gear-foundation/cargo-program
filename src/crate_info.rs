@@ -35,7 +35,9 @@ impl CrateInfo {
 
         let mut target_dir: PathBuf = metadata.target_directory.into();
         let manifest_path = cmd.manifest_path.canonicalize()?;
-        let manifest_dir = manifest_path.parent().ok_or(CrateError::InvalidManifestPath(manifest_path.clone()))?;
+        let manifest_dir = manifest_path
+            .parent()
+            .ok_or_else(|| CrateError::InvalidManifestPath(manifest_path.clone()))?;
         let workspace_root = metadata.workspace_root.canonicalize()?;
         if manifest_dir != workspace_root {
             target_dir.push(&package_name);

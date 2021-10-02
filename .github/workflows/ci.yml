@@ -16,22 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install nightly tools
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          components: rustfmt
-
       - name: Check fmt
-        run: cargo +nightly fmt -- --check
+        run: make fmt-check
 
-      - name: Run clippy
-        run: cargo clippy -- -D warnings
+      - name: Run linter
+        run: make linter
+
+      - name: Run checks
+        run: make check
 
       - name: Run tests
-        run: cargo test
-
-      - name: Run functional test
-        run: |
-          make test-new
-          make test-new-async
+        run: make test

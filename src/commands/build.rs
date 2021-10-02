@@ -23,7 +23,12 @@ impl BuildCommand {
     pub fn run(&self) -> Result<()> {
         // TODO: Check whether rustc has been installed and has the appropriate version (1.54+)
         // TODO: Check whether WASM target has been added
-        let mut args = vec!["build", "--target", "wasm32-unknown-unknown", "--manifest-path"];
+        let mut args = vec![
+            "build",
+            "--target",
+            "wasm32-unknown-unknown",
+            "--manifest-path",
+        ];
         let manifest_path = self.manifest_path.to_string_lossy();
         args.push(&manifest_path);
         if self.release {
