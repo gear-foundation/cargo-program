@@ -1,36 +1,43 @@
-.PHONY: all
+.PHONY: all check clean fmt fmt-check install linter pre-check pre-commit run test test-new test-new-async
 all:
+	@echo ------------ Build release ------------
 	@cargo build --release
 
-.PHONY: cargo
-cargo:
-	@cargo install --path .
-	@cargo program --help
-
-.PHONY: pre-check
-pre-check:
-	@cargo +nightly fmt -- --check
-	@cargo clippy -- -D warnings
+check:
+	@echo ------------ Check ------------
 	@cargo test
 
-.PHONY: install
+clean:
+	@echo ------------ Clean ------------
+	@rm -rf target
+
+fmt:
+	@echo ------------ Format ------------
+	@cargo fmt
+
+fmt-check:
+	@echo ------------ Check format ------------
+	@cargo fmt -- --check
+
+linter:
+	@echo ------------ Run linter ------------
+	@cargo clippy -- -D warnings
+
 install:
+	@echo ------------ Install ------------
 	@cargo install --path .
 
-.PHONY: pre-commit
-pre-commit:
-	@cargo +nightly fmt
-	@cargo clippy -- -D warnings
-	@cargo test
+pre-check: fmt-check linter check test
 
-.PHONY: run
-run:
-	@cargo install --path .
+pre-commit: fmt linter check
+
+run: install
 	@cargo program --help
 
-.PHONY: test-new
-test-new:
-	@cargo install --path .
+test: test-new test-new-async
+
+test-new: install
+	@echo ------------ Test 'new' ------------
 	@rm -rf test-program
 	@cargo program new test-program
 	@cd test-program && cargo program build
@@ -38,9 +45,8 @@ test-new:
 	@cd test-program && cargo program build --release
 	@test -f test-program/target/wasm32-unknown-unknown/release/test_program.wasm
 
-.PHONY: test-new-async
-test-new-async:
-	@cargo install --path .
+test-new-async: install
+	@echo ------------ Test 'new --async' ------------
 	@rm -rf test-async-program
 	@cargo program new test-async-program --async
 	@cd test-async-program && cargo program build

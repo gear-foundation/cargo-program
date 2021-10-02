@@ -16,17 +16,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install nightly tools
+      - name: Artifact cache
+        uses: Swatinem/rust-cache@v1
+
+      - name: Check fmt
+        run: make fmt-check
+
+      - name: Run linter
+        run: make linter
+
+      - name: Run checks
+        run: make check
+
+      - name: Install nightly toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
-          components: rustfmt
-
-      - name: Check fmt
-        run: cargo +nightly fmt -- --check
-
-      - name: Run clippy
-        run: cargo clippy -- -D warnings
+          target: wasm32-unknown-unknown
 
       - name: Run tests
-        run: cargo test
+        run: make test
