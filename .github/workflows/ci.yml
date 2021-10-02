@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Artifact cache
+        uses: Swatinem/rust-cache@v1
+
       - name: Check fmt
         run: make fmt-check
 
@@ -24,6 +27,12 @@ jobs:
 
       - name: Run checks
         run: make check
+
+      - name: Install nightly toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: wasm32-unknown-unknown
 
       - name: Run tests
         run: make test
