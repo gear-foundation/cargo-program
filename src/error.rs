@@ -21,4 +21,10 @@ pub enum CrateError {
 
     #[error("unable to find the output WASM file `{0}`")]
     OutputNotFound(PathBuf),
+
+    #[error("unable to optimize the WASM file `{0}`")]
+    UnableToOptimize(PathBuf),
+
+    #[error("unable to produce the metadata WASM file from `{0}`")]
+    UnableToProduceMetadata(PathBuf),
 }
