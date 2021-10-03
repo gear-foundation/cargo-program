@@ -37,7 +37,7 @@ run: install
 test: test-new test-new-async
 
 test-new: install
-	@echo ------------ Test 'new' ------------
+	@echo ------------ Test \`new\` ------------
 	@rm -rf test-program
 	@cargo program new test-program
 	@cd test-program && cargo program build
@@ -46,7 +46,7 @@ test-new: install
 	@test -f test-program/target/wasm32-unknown-unknown/release/test_program.wasm
 
 test-new-async: install
-	@echo ------------ Test 'new --async' ------------
+	@echo ------------ Test \`new --async\` ------------
 	@rm -rf test-async-program
 	@cargo program new test-async-program --async
 	@cd test-async-program && cargo program build

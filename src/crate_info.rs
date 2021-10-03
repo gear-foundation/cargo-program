@@ -8,6 +8,8 @@ use crate::error::CrateError;
 
 pub(crate) struct CrateInfo {
     pub(crate) output_wasm: PathBuf,
+    pub(crate) optimized_wasm: PathBuf,
+    pub(crate) metadata_wasm: PathBuf,
 }
 
 impl CrateInfo {
@@ -45,15 +47,21 @@ impl CrateInfo {
         target_dir.push("wasm32-unknown-unknown");
         target_dir.push(if cmd.release { "release" } else { "debug" });
 
-        let mut output_wasm = target_dir.join(&lib_name);
-        output_wasm.set_extension("wasm");
+        let base_path = target_dir.join(&lib_name);
+        let output_wasm = base_path.with_extension("wasm");
+        let optimized_wasm = base_path.with_extension("opt.wasm");
+        let metadata_wasm = base_path.with_extension("meta.wasm");
 
         anyhow::ensure!(
             output_wasm.exists(),
             CrateError::OutputNotFound(output_wasm)
         );
 
-        Ok(Self { output_wasm })
+        Ok(Self {
+            output_wasm,
+            optimized_wasm,
+            metadata_wasm,
+        })
     }
 
     fn root_package(metadata: &Metadata) -> Option<&Package> {
