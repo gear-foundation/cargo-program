@@ -1,5 +1,5 @@
-use std::{env, fs};
 use std::path::{Path, PathBuf};
+use std::{env, fs};
 
 use anyhow::{Context, Result};
 use clap::{AppSettings, Clap};
@@ -7,8 +7,8 @@ use colored::Colorize;
 use pwasm_utils::parity_wasm;
 
 use crate::common;
-use crate::output_info::OutputInfo;
 use crate::error::CrateError;
+use crate::output_info::OutputInfo;
 
 /// Compile a Gear program
 #[derive(Clap, Debug)]

@@ -58,4 +58,4 @@ test-run: install
 	@echo ------------ Test \`run\` ------------
 	@rm -rf test-program
 	@cargo program new test-program
-	@cd test-program && cargo program run
+	@cd test-program && cargo program run --release

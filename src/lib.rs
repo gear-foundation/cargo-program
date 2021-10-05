@@ -1,7 +1,7 @@
 mod commands;
 mod common;
-mod output_info;
 mod error;
+mod output_info;
 
 use anyhow::Result;
 use clap::Clap;
