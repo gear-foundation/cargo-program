@@ -6,13 +6,14 @@ use cargo_metadata::{Metadata, MetadataCommand, Package};
 use crate::commands::BuildCommand;
 use crate::error::CrateError;
 
-pub(crate) struct CrateInfo {
+#[derive(Debug, Default)]
+pub(crate) struct OutputInfo {
     pub(crate) output_wasm: PathBuf,
     pub(crate) optimized_wasm: PathBuf,
     pub(crate) metadata_wasm: PathBuf,
 }
 
-impl CrateInfo {
+impl OutputInfo {
     pub fn from_command(cmd: &BuildCommand) -> Result<Self> {
         anyhow::ensure!(
             cmd.manifest_path.exists(),
