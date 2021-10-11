@@ -1,0 +1,115 @@
+name: Deploy
+
+on:
+  push:
+    tags: ['*']
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  prepare:
+    name: Get version
+    runs-on: ubuntu-latest
+    steps:
+      - id: version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Show version
+        run: echo ${{ steps.version.outputs.VERSION }}
+
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+
+  build:
+    name: Build release binaries
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: cargo-program-${{ needs.prepare.outputs.version }}-linux-x86_64.tar.xz
+
+          - target: x86_64-apple-darwin
+            os: macOS-latest
+            name: cargo-program-${{ needs.prepare.outputs.version }}-macos-x86_64.tar.gz
+
+          - target: aarch64-apple-darwin
+            os: macOS-latest
+            name: cargo-program-${{ needs.prepare.outputs.version }}-macos-m1.tar.gz
+
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            name: cargo-program-${{ needs.prepare.outputs.version }}-windows-x86_64.zip
+
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v1
+
+      - name: Setup Rust for specified target
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: ${{ matrix.target }}
+      - name: Install LLVM
+        if: matrix.os == 'windows-latest'
+        run: choco install llvm -y
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        env:
+          SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk
+        with:
+          command: build
+          args: --release --target ${{ matrix.target }}
+
+      - name: Linux artifacts
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          strip cargo-program || true
+          XZ_OPT=-9 tar --sort='name' -cvJf ../../../${{ matrix.name }} cargo-program
+
+      - name: macOS artifacts
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          strip cargo-program || true
+          tar czvf ../../../${{ matrix.name }} cargo-program
+
+      - name: Windows artifacts
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          strip cargo-program.exe
+          7z a ../../../${{ matrix.name }} cargo-program.exe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ matrix.name }}
+
+  deploy:
+    name: Deploy binaries
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifact/*
+          body_path: CHANGELOG.md
