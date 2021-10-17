@@ -1,4 +1,4 @@
-.PHONY: all check clean fmt fmt-check install linter pre-check pre-commit run test test-new test-new-async test-run
+.PHONY: all check clean fmt fmt-check install linter pre-check pre-commit run test test-new test-new-async test-run test-run-node
 all:
 	@echo ------------ Build release ------------
 	@cargo build --release
