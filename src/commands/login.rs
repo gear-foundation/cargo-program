@@ -1,10 +1,10 @@
 use anyhow::Result;
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 
 use crate::error::CrateError;
 
 /// Login to the Gear backend
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct LoginCommand {
     /// User's token

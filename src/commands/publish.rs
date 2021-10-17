@@ -1,10 +1,10 @@
 use anyhow::Result;
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 
 use crate::error::CrateError;
 
 /// Upload a Gear program to the chain
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct PublishCommand {
     /// Token to use when uploading

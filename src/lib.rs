@@ -5,12 +5,12 @@ mod output_info;
 mod runner;
 
 use anyhow::Result;
-use clap::Clap;
+use clap::Parser;
 
 use crate::commands::*;
 
 /// Utility to simplify Gear programs development
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(
     bin_name = "cargo",
     version = clap::crate_version!(),
@@ -20,7 +20,7 @@ struct Opts {
     command: Util,
 }
 
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 enum Util {
     #[clap(
         name = "program",
@@ -30,13 +30,13 @@ enum Util {
 }
 
 /// Utility to simplify Gear programs development
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 struct ProgramUtil {
     #[clap(subcommand)]
     command: Command,
 }
 
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 enum Command {
     New(NewCommand),
     Build(BuildCommand),

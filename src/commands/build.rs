@@ -2,7 +2,7 @@ use std::path::{Path, PathBuf};
 use std::{env, fs};
 
 use anyhow::{Context, Result};
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 use pwasm_utils::parity_wasm;
 
 use crate::common;
@@ -10,7 +10,7 @@ use crate::error::CrateError;
 use crate::output_info::OutputInfo;
 
 /// Compile a Gear program
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct BuildCommand {
     /// Build artifacts in release mode, with optimizations

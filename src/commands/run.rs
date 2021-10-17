@@ -3,7 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 use pwasm_utils::parity_wasm::{self, elements};
 use pwasm_utils::rules::{InstructionType, Metering, Set as RulesSet};
 
@@ -16,7 +16,7 @@ const REGULAR_FEE: u32 = 1000;
 const DEFAULT_NODE_ADDRESS: &str = "127.0.0.1:9933";
 
 /// Run a Gear program off-chain or using local node
-#[derive(Clap, Clone, Debug)]
+#[derive(Clone, Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct RunCommand {
     /// Build artifacts in release mode, with optimizations

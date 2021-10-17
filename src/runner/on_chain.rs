@@ -32,7 +32,7 @@ fn json_rpc(method: &str) -> HashMap<&str, String> {
     json.insert("id", "1".to_string());
     json.insert("jsonrpc", "2.0".to_string());
     json.insert("method", method.to_string());
-    json.insert("params", "[\"0x1234\"]".to_string());
+    json.insert("extrinsic", "0x1000000000".to_string());
     json
 }
 
