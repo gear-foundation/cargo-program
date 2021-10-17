@@ -1,8 +1,10 @@
 use colored::Colorize;
+use env_logger::{Builder, Env};
 
 fn main() {
-    env_logger::builder().format_timestamp(None).init();
-    log::debug!("running cargo-program in debug mode");
+    Builder::from_env(Env::default().default_filter_or("debug"))
+        .format_target(false)
+        .init();
 
     if let Err(e) = cargo_program::run() {
         eprintln!(

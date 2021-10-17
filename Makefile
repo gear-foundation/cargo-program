@@ -1,4 +1,4 @@
-.PHONY: all check clean fmt fmt-check install linter pre-check pre-commit run test test-new test-new-async
+.PHONY: all check clean fmt fmt-check install linter pre-check pre-commit run test test-new test-new-async test-run test-run-node
 all:
 	@echo ------------ Build release ------------
 	@cargo build --release
@@ -53,3 +53,15 @@ test-new-async: install
 	@test -f test-async-program/target/wasm32-unknown-unknown/debug/test_async_program.wasm
 	@cd test-async-program && cargo program build --release
 	@test -f test-async-program/target/wasm32-unknown-unknown/release/test_async_program.wasm
+
+test-run: install
+	@echo ------------ Test \`run\` ------------
+	@rm -rf test-program
+	@cargo program new test-program
+	@cd test-program && cargo program run --release
+
+test-run-node: install
+	@echo ------------ Test \`run --node\` ------------
+	@rm -rf test-program
+	@cargo program new test-program
+	@cd test-program && cargo program run --release --node

@@ -1,7 +1,8 @@
 mod commands;
 mod common;
-mod crate_info;
 mod error;
+mod output_info;
+mod runner;
 
 use anyhow::Result;
 use clap::Clap;
@@ -50,7 +51,7 @@ pub fn run() -> Result<()> {
     let Util::Program(ProgramUtil { command }) = opts.command;
     match command {
         Command::New(command) => command.run(),
-        Command::Build(command) => command.run(),
+        Command::Build(command) => command.run().and(Ok(())),
         Command::Run(command) => command.run(),
         Command::Test(command) => command.run(),
         Command::Login(command) => command.run(),
