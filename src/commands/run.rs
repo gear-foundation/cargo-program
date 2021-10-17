@@ -1,5 +1,6 @@
 use std::env;
-use std::path::PathBuf;
+use std::fs;
+use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::{AppSettings, Clap};
@@ -9,6 +10,7 @@ use pwasm_utils::rules::{InstructionType, Metering, Set as RulesSet};
 
 use super::BuildCommand;
 use crate::error::CrateError;
+use crate::runner::{off_chain, on_chain};
 
 const REGULAR_FEE: u32 = 1000;
 const DEFAULT_NODE_ADDRESS: &str = "127.0.0.1:9944";
@@ -42,8 +44,20 @@ impl RunCommand {
             "Running".green().bold(),
             relative_path.to_string_lossy(),
         );
-        let module = parity_wasm::deserialize_file(program_path)
-            .context("unable to read the optimized WASM")?;
+
+        if let Some(ref node) = self.node {
+            let address = node
+                .as_ref()
+                .map(String::as_str)
+                .unwrap_or(DEFAULT_NODE_ADDRESS);
+            self.run_on_chain(program_path, address)
+        } else {
+            self.run_off_chain(program_path)
+        }
+    }
+
+    fn run_off_chain(&self, path: &Path) -> Result<()> {
+        let module = parity_wasm::deserialize_file(path).context("unable to read the WASM file")?;
 
         // We forbid memory grow and floating point
         let rules = RulesSet::new(
@@ -55,25 +69,14 @@ impl RunCommand {
         .with_forbidden_floats();
 
         let instrumented_module = pwasm_utils::inject_gas_counter(module, &rules, "env")
-            .map_err(|_| CrateError::UnableToInjectGasCounter(program_path.clone()))?;
+            .map_err(|_| CrateError::UnableToInjectGasCounter(path.to_path_buf()))?;
         let code = elements::serialize(instrumented_module)
             .context("unable to serialize the program code")?;
-        if let Some(ref node) = self.node {
-            let address = node
-                .as_ref()
-                .map(String::as_str)
-                .unwrap_or(DEFAULT_NODE_ADDRESS);
-            self.run_on_chain(code, address)
-        } else {
-            self.run_off_chain(code)
-        }
+        off_chain::run_program(code)
     }
 
-    fn run_off_chain(&self, _code: Vec<u8>) -> Result<()> {
-        Err(CrateError::UnimplementedCommand.into())
-    }
-
-    fn run_on_chain(&self, _code: Vec<u8>, _address: &str) -> Result<()> {
-        Err(CrateError::UnimplementedCommand.into())
+    fn run_on_chain(&self, path: &Path, address: &str) -> Result<()> {
+        let code = fs::read(path).context("unable to read the WASM file")?;
+        on_chain::run_program(code, address)
     }
 }

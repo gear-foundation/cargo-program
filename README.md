@@ -13,8 +13,7 @@ Utility to simplify Gear programs development.
 - *(recommended)* Latest version from the repo:
 
 ```
-git clone https://github.com/gear-tech/cargo-program.git
-cargo install --path cargo-program
+cargo install --git https://github.com/gear-tech/cargo-program.git
 ```
 
 - Stable version from [crates.io](https://crates.io/crates/cargo-program):
@@ -53,7 +52,7 @@ cargo program run
 ```
 cargo program run --node
 # or
-cargo program run --node 127.0.0.1:9933
+cargo program run --node 127.0.0.1:9944
 ```
 
 ### 🚧 *(in progress)* Run tests

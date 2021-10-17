@@ -2,6 +2,7 @@ mod commands;
 mod common;
 mod error;
 mod output_info;
+mod runner;
 
 use anyhow::Result;
 use clap::Clap;
