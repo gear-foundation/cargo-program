@@ -30,4 +30,7 @@ pub enum CrateError {
 
     #[error("unable to inject gas counter to the program `{0}`")]
     UnableToInjectGasCounter(PathBuf),
+
+    #[error("JSON RPC error [{0}]: {1}")]
+    JsonRpcError(i16, String),
 }

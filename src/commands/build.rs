@@ -3,7 +3,6 @@ use std::{env, fs};
 
 use anyhow::{Context, Result};
 use clap::{AppSettings, Clap};
-use colored::Colorize;
 use pwasm_utils::parity_wasm;
 
 use crate::common;
@@ -86,11 +85,9 @@ impl BuildCommand {
             to_mib => format!("{} MiB", to_mib / 1024 / 1024),
         };
         let relative_path = path.strip_prefix(env::current_dir()?)?;
-        println!(
-            "{:>12} `{}` ({})",
-            label.green().bold(),
-            relative_path.to_string_lossy(),
-            size,
+        common::print(
+            label,
+            &format!("`{}` ({})", relative_path.to_string_lossy(), size),
         );
         Ok(())
     }
