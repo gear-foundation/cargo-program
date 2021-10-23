@@ -5,6 +5,7 @@ use anyhow::Result;
 use reqwest::blocking::Client;
 use serde::Deserialize;
 
+use crate::common;
 use crate::error::CrateError;
 
 #[derive(Deserialize)]
@@ -22,8 +23,9 @@ struct JsonRpcError {
 }
 
 pub fn run_program(_code: Vec<u8>, address: &str) -> Result<()> {
-    let response = post_json(address, &json_rpc("author_submitExtrinsic"))?;
-    println!("Response: {}", response);
+    common::print("Sending", "`rpc_methods` RPC request");
+    let response = post_json(address, &json_rpc("rpc_methods"))?;
+    log::debug!("Response: {}", response);
     Err(CrateError::UnimplementedCommand.into())
 }
 
@@ -32,7 +34,6 @@ fn json_rpc(method: &str) -> HashMap<&str, String> {
     json.insert("id", "1".to_string());
     json.insert("jsonrpc", "2.0".to_string());
     json.insert("method", method.to_string());
-    json.insert("extrinsic", "0x1000000000".to_string());
     json
 }
 
