@@ -1,12 +1,12 @@
 use std::{env, fs};
 
 use anyhow::{ensure, Context, Result};
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 
 use crate::error::CrateError;
 
 /// Create a new Gear program
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct NewCommand {
     /// Project name

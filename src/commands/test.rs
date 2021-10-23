@@ -1,10 +1,10 @@
 use anyhow::Result;
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 
 use crate::error::CrateError;
 
 /// Execute unit and integration tests
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct TestCommand {
     /// Build artifacts in release mode, with optimizations

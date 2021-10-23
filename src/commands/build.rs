@@ -2,8 +2,7 @@ use std::path::{Path, PathBuf};
 use std::{env, fs};
 
 use anyhow::{Context, Result};
-use clap::{AppSettings, Clap};
-use colored::Colorize;
+use clap::{AppSettings, Parser};
 use pwasm_utils::parity_wasm;
 
 use crate::common;
@@ -11,7 +10,7 @@ use crate::error::CrateError;
 use crate::output_info::OutputInfo;
 
 /// Compile a Gear program
-#[derive(Clap, Debug)]
+#[derive(Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct BuildCommand {
     /// Build artifacts in release mode, with optimizations
@@ -86,11 +85,9 @@ impl BuildCommand {
             to_mib => format!("{} MiB", to_mib / 1024 / 1024),
         };
         let relative_path = path.strip_prefix(env::current_dir()?)?;
-        println!(
-            "{:>12} `{}` ({})",
-            label.green().bold(),
-            relative_path.to_string_lossy(),
-            size,
+        common::print(
+            label,
+            &format!("`{}` ({})", relative_path.to_string_lossy(), size),
         );
         Ok(())
     }

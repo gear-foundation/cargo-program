@@ -52,7 +52,7 @@ cargo program run
 ```
 cargo program run --node
 # or
-cargo program run --node 127.0.0.1:9944
+cargo program run --node 127.0.0.1:9933
 ```
 
 ### 🚧 *(in progress)* Run tests

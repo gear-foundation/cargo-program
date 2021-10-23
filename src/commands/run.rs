@@ -3,20 +3,20 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
-use clap::{AppSettings, Clap};
-use colored::Colorize;
+use clap::{AppSettings, Parser};
 use pwasm_utils::parity_wasm::{self, elements};
 use pwasm_utils::rules::{InstructionType, Metering, Set as RulesSet};
 
 use super::BuildCommand;
+use crate::common;
 use crate::error::CrateError;
 use crate::runner::{off_chain, on_chain};
 
 const REGULAR_FEE: u32 = 1000;
-const DEFAULT_NODE_ADDRESS: &str = "127.0.0.1:9944";
+const DEFAULT_NODE_ADDRESS: &str = "127.0.0.1:9933";
 
 /// Run a Gear program off-chain or using local node
-#[derive(Clap, Clone, Debug)]
+#[derive(Clone, Debug, Parser)]
 #[clap(global_setting=AppSettings::DisableVersionFlag)]
 pub(crate) struct RunCommand {
     /// Build artifacts in release mode, with optimizations
@@ -39,11 +39,8 @@ impl RunCommand {
         let info = build.run()?;
         let program_path = &info.optimized_wasm;
         let relative_path = program_path.strip_prefix(env::current_dir()?)?;
-        println!(
-            "{:>12} `{}`",
-            "Running".green().bold(),
-            relative_path.to_string_lossy(),
-        );
+
+        common::print("Running", &format!("`{}`", relative_path.to_string_lossy()));
 
         if let Some(ref node) = self.node {
             let address = node
