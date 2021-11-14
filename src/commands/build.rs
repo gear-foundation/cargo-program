@@ -64,11 +64,18 @@ impl BuildCommand {
         let mut module = parity_wasm::deserialize_file(&info.output_wasm)
             .context("unable to read the output WASM")?;
         let exports = vec![
+            "meta_async_handle_input",
+            "meta_async_handle_output",
+            "meta_async_init_input",
+            "meta_async_init_output",
+            "meta_handle_input",
+            "meta_handle_output",
             "meta_init_input",
             "meta_init_output",
-            "meta_input",
-            "meta_output",
             "meta_registry",
+            "meta_state",
+            "meta_state_input",
+            "meta_state_output",
             "meta_title",
         ];
         pwasm_utils::optimize(&mut module, exports)
