@@ -2,7 +2,7 @@
 
 use gstd::msg;
 
-#[gstd_async::main]
+#[gstd::async_main]
 async fn main() {
     msg::reply(b"Hello world!", 0, 0);
 }

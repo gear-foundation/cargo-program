@@ -43,14 +43,7 @@ impl NewCommand {
 
     fn replace_fields(&self, source: &[u8]) -> Result<String> {
         let source = String::from_utf8(source.to_vec())?;
-        let result = source.replace("{{name}}", &self.name).replace(
-            "{{async}}",
-            if self.async_flag {
-                "gstd-async = { git = \"https://github.com/gear-tech/gear.git\" }\n"
-            } else {
-                ""
-            },
-        );
+        let result = source.replace("{{name}}", &self.name);
         Ok(result)
     }
 }

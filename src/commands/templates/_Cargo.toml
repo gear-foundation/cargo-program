@@ -8,7 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 gstd = { git = "https://github.com/gear-tech/gear.git", features = ["debug"] }
-{{async}}
+
 [profile.release]
 lto = true
 opt-level = 's'
