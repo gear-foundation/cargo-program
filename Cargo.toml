@@ -19,7 +19,7 @@ path = "src/main.rs"
 doc = false
 
 [dependencies]
-anyhow = "1.0.48"
+anyhow = "1.0.50"
 cargo_metadata = "0.14.1"
 clap = "3.0.0-beta"
 colored = "2.0.0"
