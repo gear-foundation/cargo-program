@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The list of filtered functions in `.meta.wasm` expanded according to the new meta functions.
 
+### Fixed
+- Added a flag to Rust compiler to make WASM import memory.
+
 ## [0.0.3]
 ### Added
 - Generating optimized and metadata WASMs.
