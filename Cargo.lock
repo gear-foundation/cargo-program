@@ -84,7 +84,7 @@ dependencies = [
 
 [[package]]
 name = "cargo-program"
-version = "0.0.4-beta"
+version = "0.0.4"
 dependencies = [
  "anyhow",
  "cargo_metadata",
