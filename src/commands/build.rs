@@ -26,7 +26,7 @@ impl BuildCommand {
         // TODO: Check whether rustc has been installed and has the appropriate version (1.54+)
         // TODO: Check whether WASM target has been added
         let mut args = vec![
-            "build",
+            "rustc",
             "--target",
             "wasm32-unknown-unknown",
             "--manifest-path",
@@ -36,6 +36,9 @@ impl BuildCommand {
         if self.release {
             args.push("--release");
         }
+        args.push("--");
+        args.push("-C");
+        args.push("link-args=--import-memory");
         common::run_cargo(args)?;
 
         let info = OutputInfo::from_command(self)?;
