@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.4]
 ### Changed
 - The list of filtered functions in `.meta.wasm` expanded according to the new meta functions.
 
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Generating optimized and metadata WASMs.
 
-[Unreleased]: https://github.com/gear-tech/cargo-program/compare/0.0.3...HEAD
+[Unreleased]: https://github.com/gear-tech/cargo-program/compare/0.0.4...HEAD
+[0.0.4]: https://github.com/gear-tech/cargo-program/compare/0.0.3...0.0.4
 [0.0.3]: https://github.com/gear-tech/cargo-program/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/gear-tech/cargo-program/releases/tag/0.0.2

@@ -1,6 +1,6 @@
 [package]
 name = "cargo-program"
-version = "0.0.4-beta"
+version = "0.0.4"
 edition = "2018"
 license = "GPL-3.0"
 description = "Utility to simplify Gear programs development"
