@@ -64,4 +64,4 @@ test-run-node: install
 	@echo ------------ Test \`run --node\` ------------
 	@rm -rf test-program
 	@cargo program new test-program
-	@cd test-program && cargo program run --release --node
+	@cd test-program && cargo program run --release --node "ws://localhost:9944"

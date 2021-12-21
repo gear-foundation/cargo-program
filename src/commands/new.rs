@@ -38,6 +38,10 @@ impl NewCommand {
         } else {
             fs::write(src_dir.join("lib.rs"), include_bytes!("templates/_lib.rs"))?;
         }
+        fs::write(
+            dest_dir.join("run.rhai"),
+            include_bytes!("templates/_run.rhai"),
+        )?;
         Ok(())
     }
 

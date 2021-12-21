@@ -5,12 +5,17 @@ use subxt::{ClientBuilder, PairSigner};
 #[subxt::subxt(runtime_metadata_path = "node-metadata.scale")]
 pub mod node {}
 
+pub struct Extrinsics {
+
+}
+
 fn alice() -> PairSigner<node::DefaultConfig, sp_keyring::sr25519::sr25519::Pair> {
     PairSigner::new(AccountKeyring::Alice.pair())
 }
 
 async fn node_api() -> Result<node::RuntimeApi<node::DefaultConfig>> {
     let api = ClientBuilder::new()
+        .set_url("wss://localhost")
         .build()
         .await?
         .to_runtime_api::<node::RuntimeApi<node::DefaultConfig>>();

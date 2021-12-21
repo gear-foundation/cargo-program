@@ -28,9 +28,9 @@ pub enum CrateError {
     #[error("unable to produce the metadata WASM file from `{0}`")]
     UnableToProduceMetadata(PathBuf),
 
-    #[error("unable to inject gas counter to the program `{0}`")]
-    UnableToInjectGasCounter(PathBuf),
+    #[error("unable to determine running script, use `--script` argument to specify")]
+    ScriptNotFound,
 
-    #[error("JSON RPC error [{0}]: {1}")]
-    JsonRpcError(i16, String),
+    #[error("script running error: {0}")]
+    ScriptRunningError(String),
 }
