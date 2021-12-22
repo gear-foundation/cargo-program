@@ -1,19 +1,16 @@
 use std::env;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
-use anyhow::{Context, Result};
+use anyhow::{ensure, Context, Result};
 use clap::{AppSettings, Parser};
-use pwasm_utils::parity_wasm::{self, elements};
-use pwasm_utils::rules::{InstructionType, Metering, Set as RulesSet};
 
 use super::BuildCommand;
 use crate::common;
 use crate::error::CrateError;
-use crate::runner::{off_chain, on_chain};
+use crate::runner;
 
-const REGULAR_FEE: u32 = 1000;
-const DEFAULT_NODE_ADDRESS: &str = "127.0.0.1:9933";
+const DEFAULT_NODE_ADDRESS: &str = "ws://127.0.0.1:9944";
 
 /// Run a Gear program off-chain or using local node
 #[derive(Clone, Debug, Parser)]
@@ -25,55 +22,53 @@ pub(crate) struct RunCommand {
     /// Path to Cargo.toml
     #[clap(long, default_value = "Cargo.toml")]
     pub(crate) manifest_path: PathBuf,
-    /// Off-chain: Use `wasmer` runtime for running WASM code [default]
+    /// The Rhai-script to be run
+    script: Option<String>,
+    /// The node's address and port
     #[clap(long)]
-    wasmer: bool,
-    /// On-chain: Local node's address and port
-    #[clap(long)]
-    node: Option<Option<String>>,
+    node: Option<String>,
 }
 
 impl RunCommand {
     pub fn run(&self) -> Result<()> {
+        let script_path = self.find_script()?;
+
+        // Build the program before running
         let build: BuildCommand = self.clone().into();
         let info = build.run()?;
-        let program_path = &info.optimized_wasm;
-        let relative_path = program_path.strip_prefix(env::current_dir()?)?;
+        let code = fs::read(&info.optimized_wasm).context("unable to read the WASM file")?;
+        runner::set_code(code);
 
-        common::print("Running", &format!("`{}`", relative_path.to_string_lossy()));
+        // Set node's URL
+        let url = self.node.as_deref().unwrap_or(DEFAULT_NODE_ADDRESS);
+        runner::set_node_url(url.to_string());
 
-        if let Some(ref node) = self.node {
-            let address = node
-                .as_ref()
-                .map(String::as_str)
-                .unwrap_or(DEFAULT_NODE_ADDRESS);
-            self.run_on_chain(program_path, address)
-        } else {
-            self.run_off_chain(program_path)
+        // Run the script
+        let relative_path = script_path
+            .strip_prefix(env::current_dir()?)?
+            .to_string_lossy();
+        common::print("Running", &format!("`{}`", relative_path));
+        runner::run(script_path)
+    }
+
+    fn find_script(&self) -> Result<PathBuf> {
+        if let Some(script) = &self.script {
+            let path = fs::canonicalize(script)?;
+            if path.exists() {
+                return Ok(path);
+            }
         }
-    }
-
-    fn run_off_chain(&self, path: &Path) -> Result<()> {
-        let module = parity_wasm::deserialize_file(path).context("unable to read the WASM file")?;
-
-        // We forbid memory grow and floating point
-        let rules = RulesSet::new(
-            REGULAR_FEE,
-            vec![(InstructionType::GrowMemory, Metering::Forbidden)]
-                .into_iter()
-                .collect(),
-        )
-        .with_forbidden_floats();
-
-        let instrumented_module = pwasm_utils::inject_gas_counter(module, &rules, "env")
-            .map_err(|_| CrateError::UnableToInjectGasCounter(path.to_path_buf()))?;
-        let code = elements::serialize(instrumented_module)
-            .context("unable to serialize the program code")?;
-        off_chain::run_program(code)
-    }
-
-    fn run_on_chain(&self, path: &Path, address: &str) -> Result<()> {
-        let code = fs::read(path).context("unable to read the WASM file")?;
-        on_chain::run_program(code, address)
+        let entries = fs::read_dir(env::current_dir()?)?;
+        let mut paths = Vec::new();
+        for entry in entries {
+            let path = entry?.path();
+            if let Some(ext) = path.extension() {
+                if ext.to_ascii_lowercase() == "rhai" {
+                    paths.push(path);
+                }
+            }
+        }
+        ensure!(paths.len() == 1, CrateError::ScriptNotFound);
+        Ok(paths.remove(0))
     }
 }
