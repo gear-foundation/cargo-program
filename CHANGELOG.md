@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Initial support for Rhai-scripts execution.
-- `submit_program extrinsic.
+- `submit_program` extrinsic.
 
 ## [0.0.4]
 ### Changed
