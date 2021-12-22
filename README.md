@@ -45,9 +45,17 @@ cargo program build
 
 ```
 cargo program run
-# or specifying the running script
+```
+
+... or specifying the running script:
+
+```
 cargo program run --script run.rhai
-# or specifying the node's URL
+```
+
+... or specifying the node's URL:
+
+```
 cargo program run --node "ws://127.0.0.1:9944"
 ```
 
