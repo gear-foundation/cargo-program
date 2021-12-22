@@ -41,18 +41,14 @@ cargo program new my-async-program --async
 cargo program build
 ```
 
-### 🚧 *(in progress)* Run the Gear program off-chain (default)
+### 🚧 *(in progress)* Run the Gear program on-chain using the local node
 
 ```
 cargo program run
-```
-
-### 🚧 *(in progress)* Run the Gear program on-chain using local node
-
-```
-cargo program run --node
-# or
-cargo program run --node 127.0.0.1:9933
+# or specifying the running script
+cargo program run --script run.rhai
+# or specifying the node's URL
+cargo program run --node "ws://127.0.0.1:9944"
 ```
 
 ### 🚧 *(in progress)* Run tests
