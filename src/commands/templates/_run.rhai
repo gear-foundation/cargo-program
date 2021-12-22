@@ -1,3 +1,2 @@
 let prog = program();
-print("Program ID:", prog.id);
-prog.submit();
+submit_program(prog);

@@ -8,9 +8,8 @@ use clap::{AppSettings, Parser};
 use super::BuildCommand;
 use crate::common;
 use crate::error::CrateError;
-use crate::runner::{self, Runner};
+use crate::runner;
 
-const REGULAR_FEE: u32 = 1000;
 const DEFAULT_NODE_ADDRESS: &str = "ws://127.0.0.1:9944";
 
 /// Run a Gear program off-chain or using local node
@@ -40,12 +39,11 @@ impl RunCommand {
         let code = fs::read(&info.optimized_wasm).context("unable to read the WASM file")?;
         runner::set_code(code);
 
-        let url = self.node
-                .as_ref()
-                .map(String::as_str)
-                .unwrap_or(DEFAULT_NODE_ADDRESS);
+        // Set node's URL
+        let url = self.node.as_deref().unwrap_or(DEFAULT_NODE_ADDRESS);
         runner::set_node_url(url.to_string());
 
+        // Run the script
         let relative_path = script_path
             .strip_prefix(env::current_dir()?)?
             .to_string_lossy();

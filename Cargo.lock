@@ -275,6 +275,7 @@ dependencies = [
  "sp-keyring",
  "subxt",
  "thiserror",
+ "tokio",
 ]
 
 [[package]]
