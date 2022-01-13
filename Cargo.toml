@@ -21,7 +21,7 @@ doc = false
 [dependencies]
 anyhow = "1.0.52"
 cargo_metadata = "0.14.1"
-clap = { version = "3.0.4", features = ["cargo", "derive"] }
+clap = { version = "3.0.7", features = ["cargo", "derive"] }
 colored = "2.0.0"
 env_logger = "0.9.0"
 log = "0.4.14"
